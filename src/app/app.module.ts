@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { TemplateDrivenComponent } from './template-driven/template-driven.component';
 import { NoPageComponent } from './no-page/no-page.component';
 import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
     HomeComponent,
     TemplateDrivenComponent,
     NoPageComponent,
-    ReactiveFormComponent
+    ReactiveFormComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -11,13 +11,13 @@
         <div class="collapse justify-content-start navbar-collapse" [ngClass]="{ 'show': isShown }" id="navbarTogglerDemo03">
           <ul class="navbar-nav mt-2 mt-lg-0">
             <li class="nav-item active">
-              <a class="nav-link" routerLink="" (click)="isShown = false" >Główna</a>
+              <a class="nav-link" routerLink="" routerLinkActive="active" (click)="isShown = false" >Główna</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="formDriven" (click)="isShown = false" >Form1</a>
+              <a class="nav-link" routerLink="formDriven" routerLinkActive="active" (click)="isShown = false" >Template Driven</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" routerLink="reactiveForm" (click)="isShown = false" >Form2</a>
+              <a class="nav-link" routerLink="reactiveForm" routerLinkActive="active" (click)="isShown = false" >Reactive Form</a>
             </li>
           </ul>
         </div>

@@ -17,16 +17,27 @@ export class ReactiveFormComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      firstName: ['John', [Validators.required]],
-      lastName: ['Doe'],
-      mail: [''],
-      age: [''],
-      agree: ['false'],
+      firstName: [null, [Validators.required, Validators.minLength(3)]],
+      lastName: [null, [Validators.required, Validators.minLength(3)]],
+      mail: [null, [Validators.required, Validators.email]],
+      age: [null],
+      agree: [false, [Validators.required]],
     });
   }
 
   get nameFromCmp() {
     return this.form.get('firstName');
+  }
+
+  get lastNameFromCmp() {
+    return this.form.get('lastName');
+  }
+  get mailFromCmp() {
+    return this.form.get('mail');
+  }
+
+  get agreeFromCmp() {
+    return this.form.get('agree');
   }
 
   onSubmit(form) {

@@ -1,23 +1,23 @@
 <!-- main app container -->
-<div class="jumbotron">
+<div class="jumbotron mb-0">
   <div class="container">
     <div class="row">
       <div class="col-md-8 offset-md-2">
         <h3>Angular 8 Reactive form</h3>
-        <form [formGroup]="form">
+        <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
           <div class="form-group">
             <label for="firstName">Imię</label>
             <input
               type="text"
               class="form-control"
               formControlName="firstName"
-              [ngClass]="{ 'is-invalid': true }"
+              [ngClass]="{ 'is-invalid': nameFromCmp.invalid && !nameFromCmp.untouched }"
               placeholder="Imię"
             />
-            <!-- <div *ngIf="firstName.invalid && firstName.touched" class="invalid-feedback">
-              <div *ngIf="firstName.errors.required">Podaj imię</div>
-              <div *ngIf="firstName.errors.minlength">Za krótkie imię</div>
-            </div> -->
+            <div *ngIf="nameFromCmp.invalid && !nameFromCmp.untouched" class="invalid-feedback">
+              <div *ngIf="nameFromCmp.errors.required">Podaj imię</div>
+              <div *ngIf="nameFromCmp.errors.minlength">Za krótkie imię</div>
+            </div>
           </div>
           <div class="form-group">
             <label for="lastName">Nazwisko</label>
@@ -25,31 +25,31 @@
               type="text"
               class="form-control"
               formControlName="lastName"
-              [ngClass]="{ 'is-invalid': lastName.invalid && !lastName.untouched }"
+              [ngClass]="{ 'is-invalid': lastNameFromCmp.invalid && !lastNameFromCmp.untouched }"
               placeholder="Nazwisko"
             />
-            <!-- <div *ngIf="lastName.invalid && lastName.touched" class="invalid-feedback">
-              <div *ngIf="lastName.errors.required">Podaj Nazwisko</div>
-              <div *ngIf="lastName.errors.minlength">Za krótkie nazwisko</div>
-            </div> -->
+            <div *ngIf="lastNameFromCmp.invalid && !lastNameFromCmp.untouched" class="invalid-feedback">
+              <div *ngIf="lastNameFromCmp.errors.required">Podaj Nazwisko</div>
+              <div *ngIf="lastNameFromCmp.errors.minlength">Za krótkie nazwisko</div>
+            </div>
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
+            <label for="mail">Email</label>
             <input
               type="text"
               class="form-control"
-              formControlName="email"
-              [ngClass]="{ 'is-invalid': email.invalid && !email.untouched }"
+              formControlName="mail"
+              [ngClass]="{ 'is-invalid': mailFromCmp.invalid && !mailFromCmp.untouched }"
               placeholder="email"
             />
-            <!-- <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
-              <div *ngIf="email.errors.required">Podaj adres email</div>
-              <div *ngIf="email.errors.email">Zły adres email</div>
-            </div> -->
+            <div *ngIf="mailFromCmp.invalid && !mailFromCmp.untouched" class="invalid-feedback">
+              <div *ngIf="mailFromCmp.errors.required">Podaj adres email</div>
+              <div *ngIf="mailFromCmp.errors.email">Zły adres email</div>
+            </div>
           </div>
           <div class="form-group">
             <label for="age">Wiek</label>
-            <input type="text" class="form-control" name="age" ngModel #age="ngModel" placeholder="wiek" />
+            <input type="text" class="form-control" formControlName="age" placeholder="wiek" />
           </div>
           <div class="form-group">
             <div class="custom-control custom-checkbox">
@@ -57,22 +57,25 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="customCheck1"
-                formControlName="agreed"
-                [ngClass]="{ 'is-invalid': !agreed.value && !agreed.untouched }"
+                formControlName="agree"
+                [ngClass]="{ 'is-invalid': !agreeFromCmp.value && !agreeFromCmp.untouched }"
+                required
+                checked
               />
               <label class="custom-control-label" for="customCheck1">Zgoda na przetwarzanie danych osobowych</label>
             </div>
           </div>
           <div class="form-group">
             <button class="btn btn-secondary ml-1" type="reset">Resetuj</button>
-            <button class="btn btn-primary" type="submit" >Wyślij</button>
+            <button class="btn btn-primary" type="submit" [disabled]="(form.invalid)" >Wyślij</button>
           </div>
         </form>
       </div>
     </div>
-    <!-- <div class="container col-md-8 offset-md-">
+    <div class="container col-md-8 offset-md-">
       <p>{{ form.value | json }}</p>
-    </div> -->
+      <p>{{ form.invalid }}</p>
+    </div>
   </div>
 </div>
 

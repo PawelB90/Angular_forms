@@ -1,0 +1,79 @@
+<!-- main app container -->
+<div class="jumbotron">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h3>Angular 8 Reactive form</h3>
+        <form [formGroup]="form">
+          <div class="form-group">
+            <label for="firstName">Imię</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="firstName"
+              [ngClass]="{ 'is-invalid': true }"
+              placeholder="Imię"
+            />
+            <!-- <div *ngIf="firstName.invalid && firstName.touched" class="invalid-feedback">
+              <div *ngIf="firstName.errors.required">Podaj imię</div>
+              <div *ngIf="firstName.errors.minlength">Za krótkie imię</div>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <label for="lastName">Nazwisko</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="lastName"
+              [ngClass]="{ 'is-invalid': lastName.invalid && !lastName.untouched }"
+              placeholder="Nazwisko"
+            />
+            <!-- <div *ngIf="lastName.invalid && lastName.touched" class="invalid-feedback">
+              <div *ngIf="lastName.errors.required">Podaj Nazwisko</div>
+              <div *ngIf="lastName.errors.minlength">Za krótkie nazwisko</div>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="email"
+              [ngClass]="{ 'is-invalid': email.invalid && !email.untouched }"
+              placeholder="email"
+            />
+            <!-- <div *ngIf="email.invalid && email.touched" class="invalid-feedback">
+              <div *ngIf="email.errors.required">Podaj adres email</div>
+              <div *ngIf="email.errors.email">Zły adres email</div>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <label for="age">Wiek</label>
+            <input type="text" class="form-control" name="age" ngModel #age="ngModel" placeholder="wiek" />
+          </div>
+          <div class="form-group">
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customCheck1"
+                formControlName="agreed"
+                [ngClass]="{ 'is-invalid': !agreed.value && !agreed.untouched }"
+              />
+              <label class="custom-control-label" for="customCheck1">Zgoda na przetwarzanie danych osobowych</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-secondary ml-1" type="reset">Resetuj</button>
+            <button class="btn btn-primary" type="submit" >Wyślij</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- <div class="container col-md-8 offset-md-">
+      <p>{{ form.value | json }}</p>
+    </div> -->
+  </div>
+</div>
+
+<!-- credits -->

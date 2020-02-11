@@ -1,0 +1,185 @@
+Budujemy prostą aplikację Angular z czterama widokami:
+	1.1. Home - strona domowa
+	1.2. PageNotFound - gdy link nie pasuje do żadnego podwidoku, typowy 404
+	1.3. Formularz zbierający dane kupującego - formularz template-driven 
+	1.4. Formularz zbierający dane kupującego - formularz reaktywny
+
+Ogólne wytyczne:
+	. Na każdej stronie pojawia się Nawigacja: 
+		- navbar z tabami do Formularzy 
+	. Docelowo, chcemy aby teksty w widokach były przekazane jako one-way-binding, a nie hardkodowane
+		- definiujemy zmienne i ich wartości w komponencie i przekazujemy do widoku
+
+ad.1.1
+	Strona domowa Home będzie zawierać tylko tekst powitalny 
+
+ad.1.2 
+	Strona PageNotFound będzie zawierać tekst - "Strony nie znaleziono" oraz przycisk "Powrót na stronę główną" 
+
+ad.1.3 i 1.4 
+Formularze:
+	- Każdy z formularzy jest tworzony w osobnym komponencie i templatce, oraz ma swój plik .scss ze stylami
+	- Oba formularze są w jednym module "MyFormsModule" - moduł ten jest zaciągany do głównego modułu AppModule
+
+	ad.1.3 
+	Formularz Template-Driven:
+	
+	Pola obydwu formularzy:
+		Obowiązkowe do wypełnienia:
+		- imię
+		- nazwisko
+		- adres email - walidacja czy poprawny mail
+		- zgoda na przetwarzanie danych osobowych
+
+		Nieobowiązkowe do wypełnienia:
+		- wiek
+
+		Formularz posiada dwa przyciski:
+			Anuluj/Cofnij - wraca nas na stronę główną i czyści dane które zebraliśmy
+			Zapisz - zapisuje dane do modelu
+				- pole Zapisz jest aktywne tylko gdy formularz jest poprawnie wypełniony
+
+	Pozostałe warunki dla formularzy:
+	- Formularze zawierają tagi "label" dla każdego pola, z nazwą tego pola
+	- Formularze zawierają podpowiedzi "placeholder" dla pól typu "input=text"
+	- Formularze reagują na wprowadzane dane i walidują je (np. pole imię jest "required", i ma długość conajmniej 3 znaków)
+	- W przypadku niepoprawnych wartości pól:
+		- pokazujemy informację tekstową o błędzie - np. pod polem
+		- zmieniamy styl css danego pola - np. tło lub obramowanie inputa robi się czerwone
+	- Formularz może mieć domyślne wartości dla niektórych pól - wedle uznania - np. wiek: 18
+
+
+ad.ALL:
+	Stylowanie:	
+		Globalne:
+		- możemy użyć reset.css lub normalize.css na początek, aby wyczyścić/znormalizować domyślne style - dodajemy w package.json i angular.json
+		- możemy zdefiniować 4/5 globalnych kolorów w styles.css (możemy ich używać jako zmiennych lub --var())
+		- tworzymy główny kontener i ostylowujemy go - w nim będą nasze kolejne widoki
+			- kontener powinien być wyśrodkowany, z równymi, niewielki marginesami po bokach
+
+		Per Komponent:
+		- Ostylowanie nawigacji/navbara
+			- fajnie gdyby najechanie na dany link do podstrony, reagował na akcję :hover
+		- Ostylowanie formularzy:
+			- oba formularze muszą być wyśrodkowane względem kontenera
+			- dla każdego z dwóch formularzy, wybieramy inną metodę wyśrodkowania elementów (flexbox, float'y, margin auto, grid - do wyboru)
+
+
+
+Strategie działania:
+	Definiujemy model danych:
+		- dane w navbarze (jakie strony i jakie nazwy na odnośnikach itd.)
+		- dane dla pól formularzy (jakie pola, jakiego typu)
+		a następnie tworzymy do nich templatki
+
+	vs
+
+	Definiujemy widoki:
+		- tworzymy sztywne html templatki, z zahardkodowanymi nazwami pól, przycisków itd,
+		a następnie tworzymy ich odpowiedniki w modelu i krok po kroku podmieniamy
+
+
+	Strategia stylowania:
+	- fajnie stworzyć poczatkowy szkic - np. wyśrodkowanie kontenera i formularzy, oraz dodać podstawowe paddingi, testowe kolory,
+	- żeby od samego początku widzieć co tworzymy - ale szczegóły zostawić na koniec
+
+
+
+
+
+Lista kroków:
+	1. Stworzenie struktury modułów i komponentów
+	2. Stworzenie routingów dla naszych widoków i komponentów
+	3. Dodanie podstawowych struktur Html do widoków, żebyśmy wiedzieli gdzie jesteśmy
+	4. Stworznie surowego navbar'a z linkami i sprawdzenie czy działa routing
+
+	TDF - Template Driven Form:
+	5. Stworzenie surowej struktury HTML Formularza Template-Driven - pola i przyciski końcowe
+	- w nim 90% działań dzieje się w HTML
+	6. Dodanie styli:
+		6a. Wycentrowanie formularza
+		6b. Wspólny styl (klasa css) dla każdego Pola: np. div z labelem i kolejnym divem (a w nim input, select lub checkbox)
+
+
+	7. Dodanie dyrektywy "ngModel"
+			"To enable template-driven forms, i.e. to make ngModel and other form-related directives available for use in our project, we have to import them explicitly to our AppModule." + FormsModule !!
+
+	8. Stworzenie "template reference variables" zmiennych w widoku, np: #firstNameVar="ngModel"
+	9. Stworzenie "template reference variable" dla dyrektywy ngForm - Angular ogólnie sam ją tworzy, ale przyda się referencja
+	10. Dodanie "novalidate" do samego formularza
+	11. Dodanie natywnych html walidatorów 
+	12. Dodanie podglądu modelu JSON formularza (pod templatkami, tylko do debuggowania)
+	13. Dodanie paragrafów/divów z informacją o błędach walidacji danego pola 
+		13a. Dodanie do nich sprawdzenia *ngIf - pokazujemy tylko jeśli pole jest nieprawidłowe
+	14. Dodanie [ngClass] do pól - i dodawanie tam klasy np: "hasError", jeśli pole ma błąd walidacji
+	15. Dodanie [ngClass] lub [disabled] do przycisku "Zamawiam" - przycisk będzie aktywny tylko jeśli cały formularz jest poprawny/valid
+	16. Obsłużenie akcji Submit formularza:
+		16a. Dodanie zdarzenia (ngSubmit)="save(myForm)" - zdarzenie wywoła przycisk: <button type="submit"> </button> 
+		16b. Stworzenie metody "save" w komponencie, która obsłuży zdarzenie - np. wyloguje w konsoli wartość całego formularza
+		16c. Możemy też dodać Typ "NgForm" dla parametru (myForm)
+	17. Dodanie brakujących placeholderów
+	18. Dodanie dodatkowych styli
+	19. Dodanie zmiany routingi do przycisku "Cofnij"
+		19a. Dodanie zależności routingowych - żeby móc użyć dyrektyw [routerLink] lub serwisu Router
+
+
+	RDF - Reactive Driven Form
+  20. Stworzymy szkielet nowego FormGroup z jednym testowym polem.
+  	. Skopiowanie templatki TDF - dobra podstawa, będziemy ją przerabiać 
+	. Zaciągniecie klas dla Reaktywnych formularzy z @angular/core, w komponencie:
+		. FormBuilder - serwis który pomoże nam stworzyć formularz _vs_ ręczne budowanie z new FormControl() i FormGroup
+		. FormGroup - klasa formularza który stworzymy
+	. Utworzenie zmiennej myForm - "private customerForm: FormGroup;"
+	. Dodanie odpowiednich dyrektyw formGroup i formControlName do widoku
+		. przekazujemy do dyrektywy formGroup naszą zmienną z formularzem [formGroup]="myForm"
+		. zamiana atrybutów "name" na "formControlName" - nazwy pól pozostają takie same
+	. Usunięcie bindingów ngModel
+	. Usunięcie "template reference variables" - musimy skorzystać bezpośrednio z pól formularza, a nie z ngModel
+
+	. Stworzenie Formularza - użyjemy serwisu "fb", czyli instancję klasy "FormBuilder" - tzn, serwis
+		. wywołujemy metodę this.fb.group() 
+		. Przekazujemy obiekt konfiguracyjny do metody:
+			. klucze obiektu to nazwy naszych pól
+			. wartości obiektu to konfiguracja odpowiedniego pola 
+				. mamy do wyboru kilka typów: sama wartość domyślna, tablica z konfiguracją, obiekt z konfiguracją
+				. konfiguracja czyli: wartość domyślna, walidatory sync, walidatory async, oraz warunek change?? 
+
+	. Jak teraz odnieść się do naszych pól w widoku? 
+		. Korzystamy z tego, że poprzez komponent wystawiliśmy widokowi nasz formularz, czyli: customerForm.get('firstName')
+		. Zamiany dokonujemy w [ngClass] oraz warunkach *ngIf
+		. ale możemy sobie te wywołania uprościć - definiujemy getter'y() w komponencie
+
+	. Modyfikujemy wywołanie ngSubmit:
+		. nie potrzebujemy przekazywać obiektu formularza z widoku do wywołania metody - bo mamy już obiekt formularz w komponencie myForm: FormGroup
+		. czyli (ngSubmit)="save(myForm)" zamieniamy na (ngSubmit)="save()" 
+		. w metodzie save() w komponencie korzystamy z this.myForm, a nie z argumentu funkcji
+		
+		
+
+	. Sprawdzamy warunki dla przycisku "Zamawiam" - powinny dalej działać :)
+
+
+
+
+
+
+
+
+Dodatkowe/dla chętnych:
+	Wewnątrz Formularza Reaktywnego:
+	- Checkbox - "Czy kupujący chce dostawę do domu" - true/false
+		- jeśli true, to wyświetlimy mu grupę pól dotyczących adresu:
+		Pola Adresu:
+		- "Wybierz firmę przewozową "- Select - jedna opcja z 4
+		- Adres: dwie linijki adresu, ale tylko pierwsza obowiązkowa
+		- Kraj: Dropdown/Select z listą 5 krajów (przez nas zdefiniowanych, w widoku lub komponencie)
+	
+	- Dodanie logo w navbarze, które przekierowuje na Stronę Główną Home
+
+//	- Stworzenie nowej grupy walidacyjnej dla email:
+		- dodanie pola: Powtórz email 
+		- walidacja czy pole Powtórze email jest równe polu email
+/// - W navbarze oznakować link do podstrony która jest aktualnie aktywna	
+
+
+

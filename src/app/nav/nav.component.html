@@ -1,0 +1,27 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+  <div class="container-fluid px-0">
+    <div class="row w-100">
+      <div class="col-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation" (click)="isShown = !isShown" >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <div class="col-10">
+        <div class="collapse justify-content-start navbar-collapse" [ngClass]="{ 'show': isShown }" id="navbarTogglerDemo03">
+          <ul class="navbar-nav mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" routerLink="" (click)="isShown = false" >Główna</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="formDriven" (click)="isShown = false" >Form1</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" routerLink="reactiveForm" (click)="isShown = false" >Form2</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
